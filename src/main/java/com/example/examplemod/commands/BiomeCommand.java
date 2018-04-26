@@ -70,6 +70,7 @@ public class BiomeCommand {
     }
 
     private static void setBiome (WorldServer world, BlockPos center, int radius, byte biomeID) {
+        //TODO Biome change is not syncing with the client, so 1) F3 info is wrong and 2) grass color is wrong until restart
         // First create a list of chunks that include the full radius
         int minX = center.getX() - radius;
         int maxX = center.getX() + radius;
@@ -78,19 +79,21 @@ public class BiomeCommand {
 
         for (int x=(int)Math.floor(minX/16D); x<=(int)Math.floor(maxX/16D); x++) {
             for (int z=(int)Math.floor(minZ/16D); z<=(int)Math.floor(maxZ/16D); z++) {
-                byte[] biomeArray = world.getChunkFromChunkCoords(x,z).getBiomeArray();
+                Chunk chunk = world.getChunkFromChunkCoords(x,z);
+                byte[] biomeArray = chunk.getBiomeArray();
                 //Second crawl through the array comparing each one to the inside of the radius
                 for (int i = 0; i < biomeArray.length; i++) {
                     int arrX = Math.floorMod(i,16)+16*x;
                     int arrZ = (int)Math.floor(i/16)+16*z;
                       if (minX <= arrX && arrX <=maxX && minZ <= arrZ && arrZ <= maxZ) {
                         //Do the biome change
-                          Chunk chunk = world.getChunkFromChunkCoords(x,z);
                           IBlockState state = chunk.getBlockState(arrX, 65, arrZ);
                           world.getChunkFromChunkCoords(x,z).getBiomeArray()[i] = biomeID;
-                          world.notifyBlockUpdate(new BlockPos(arrX, chunk.getHeightValue(Math.floorMod(x,16), Math.floorMod(z,16)), arrZ), state, chunk.getBlockState(arrX, 65, arrZ),0);
+                          //world.notifyBlockUpdate(new BlockPos(arrX, chunk.getHeightValue(Math.floorMod(x,16), Math.floorMod(z,16)), arrZ), state, chunk.getBlockState(arrX, 65, arrZ),0);
+
                     }
                 }
+                //chunk.markDirty();  //Not working
             }
         }
     }

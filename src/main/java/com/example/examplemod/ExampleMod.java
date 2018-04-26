@@ -1,11 +1,7 @@
 package com.example.examplemod;
 
 import com.example.examplemod.commands.IslandCommand;
-import net.minecraft.block.BlockIce;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
-import net.minecraft.world.World;
-import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -26,13 +22,14 @@ public class ExampleMod
     public void preInit(FMLPreInitializationEvent event)
     {
         logger = event.getModLog();
+
     }
 
     @EventHandler
     public void init(FMLInitializationEvent event)
     {
         // some example code
-        logger.info("DIRT BLOCK >> {}", Blocks.DIRT.getRegistryName());
+        logger.info("Starting the youSkyBlockMod", "now");
         Blocks.OBSIDIAN.setResistance(10.0F);
         Blocks.ICE.setResistance(3000.0F);
     }
