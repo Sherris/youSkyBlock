@@ -1,5 +1,6 @@
 package com.farmsoft.youskyblock.player;
 
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.capabilities.CapabilityManager;
@@ -17,12 +18,12 @@ public class PlayerInfo implements Serializable {
     private BlockPos islandHome;
     private Map<String, Integer> challengeMap;  //String challenge ID, Integer: times completed
     private int deaths;
-    private EntityPlayerMP player;
+    private EntityPlayerSP player;
 
 
-    public PlayerInfo(EntityPlayerMP playerMP) {
+    public PlayerInfo(EntityPlayerSP playerSP) {
         if (isNew()) {
-            player = playerMP;
+            player = playerSP;
             deaths = 0;
             challengeMap = new HashMap<>();
             islandCenter = new BlockPos(0,255, 0);
@@ -35,7 +36,40 @@ public class PlayerInfo implements Serializable {
 
     public void save() {
         //Save PlayerInfo to file
+        FileOutputStream fout = null;
+        ObjectOutputStream oos = null;
 
+        try {
+
+            fout = new FileOutputStream("C:\\Work\\MC_Modding\\apr-21\\run\\config\\PlayerInfo.ser");
+            oos = new ObjectOutputStream(fout);
+            oos.writeObject(this);
+
+            System.out.println("Done");
+
+        } catch (Exception ex) {
+
+            ex.printStackTrace();
+
+        } finally {
+
+            if (fout != null) {
+                try {
+                    fout.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (oos != null) {
+                try {
+                    oos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
     }
 
     public void onDeath () {

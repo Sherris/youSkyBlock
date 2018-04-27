@@ -60,9 +60,6 @@ public class BiomeCommand {
 
             setBiome(server.getWorld(0),position, radius, (byte)Biome.getIdForBiome(BIOMES.get(biome)));
 
-
-
-
             player.sendMessage(new TextComponentString("chunk found"));
 
 

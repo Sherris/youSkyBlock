@@ -1,6 +1,9 @@
 package com.farmsoft.youskyblock;
 
 import com.farmsoft.youskyblock.commands.IslandCommand;
+import com.farmsoft.youskyblock.player.PlayerInfo;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -12,11 +15,12 @@ import org.apache.logging.log4j.Logger;
 @Mod(modid = ExampleMod.MODID, name = ExampleMod.NAME, version = ExampleMod.VERSION)
 public class ExampleMod
 {
-    public static final String MODID = "examplemod";
-    public static final String NAME = "Example Mod";
-    public static final String VERSION = "1.0";
+    public static final String MODID = "youskyblock";
+    public static final String NAME = "You Sky Block";
+    public static final String VERSION = "0.1";
 
     private static Logger logger;
+    public static PlayerInfo player;
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
@@ -30,6 +34,7 @@ public class ExampleMod
     {
         // some example code
         logger.info("Starting the youSkyBlockMod", "now");
+        //player = new PlayerInfo(Minecraft.getMinecraft().player);
         Blocks.OBSIDIAN.setResistance(10.0F);
         Blocks.ICE.setResistance(3000.0F);
     }
@@ -38,5 +43,6 @@ public class ExampleMod
     public void serverLoad(FMLServerStartingEvent event) {
         event.registerServerCommand(new MyCommand());
         event.registerServerCommand(new IslandCommand());
+
     }
     }

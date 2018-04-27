@@ -46,6 +46,12 @@ public class IslandCommand extends CommandBase {
                 BiomeCommand.execute(server, getCommandSenderAsPlayer(sender), args);
             } else if (args[0].equals("score")) {
                 ScoreCommand.execute(server, getCommandSenderAsPlayer(sender), args);
+            } else if (args[0].equals("home")) {
+                HomeCommand.execute(server, getCommandSenderAsPlayer(sender), args);
+            } else if (args[0].equals("sethome")) {
+                SetHomeCommand.execute(server, getCommandSenderAsPlayer(sender), args);
+            } else if (args[0].matches("challenge|c")) {
+                ChallengeCommand.execute(server, getCommandSenderAsPlayer(sender), args);
             } else  {
                 sender.sendMessage((new TextComponentString("\u00a7cOops - I don't recognize that command!")));
             }
