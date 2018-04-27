@@ -11,58 +11,82 @@ import net.minecraftforge.common.capabilities.CapabilityManager;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
-public class PlayerInfo implements Serializable, IPlayerInfo {
+public class PlayerInfo implements Serializable {//}, IPlayerInfo {
 
-    private BlockPos islandCenter;
-    private BlockPos islandHome;
-    private Map<String, Integer> challengeMap;  //String challenge ID, Integer: times completed
-    private int deaths;
-    private EntityPlayerMP player;
+    private final String PATH = "C:\\Work\\MC_Modding\\apr-21\\run\\config\\PlayerInfo.ser";
+    private PlayerSave playerSave = new PlayerSave();
+
+    private class BlockLoc implements Serializable {
+        int dimension;
+        int x;
+        int y;
+        int z;
+        BlockLoc(int dim, BlockPos blockPos) {
+            dimension = dim;
+            x = blockPos.getX();
+            y = blockPos.getY();
+            z = blockPos.getZ();
+        }
+    }
+    private class PlayerSave implements Serializable {
+        String playerID;
+        String playerName;
+        BlockLoc islandCenter;
+        BlockLoc islandHome;
+        Map<String, Integer> challengeMap;
+        int deaths;
+    }
 
 
     public PlayerInfo(EntityPlayerMP playerMP) {
         if (isNew()) {
-            player = playerMP;
-            deaths = 0;
-            challengeMap = new HashMap<>();
-            islandCenter = new BlockPos(0,255, 0);
-            islandHome = player.getPosition();
-            save();
+            playerSave.playerID = playerMP.getCachedUniqueIdString();
+            playerSave.playerName = playerMP.getDisplayNameString();
+            playerSave.islandCenter=new BlockLoc(0,new BlockPos(0,255,0));
+            playerSave.islandHome=new BlockLoc(playerMP.dimension,playerMP.getPosition());
+            playerSave.challengeMap = new HashMap<>();
+            playerSave.deaths=0;
+            save(playerSave);
         } else {
             //read player data from file
-            load();
+            playerSave = load();
 
         }
     }
+
 
     public void setHome(BlockPos homePos) {
 
     }
 
     public BlockPos getHome() {
-        return islandHome;
+        return null;
+        //return islandHome;
     }
 
     public void completeChallenge(String challengeName){
-        challengeMap.put(challengeName, challengeMap.getOrDefault(challengeName,0)+1);
+        playerSave.challengeMap.put(challengeName, playerSave.challengeMap.getOrDefault(challengeName,0)+1);
+        save(playerSave);
     };
 
     public Map<String, Integer> getChallenges(){
-        return challengeMap;
+        return playerSave.challengeMap;
     }
 
     public void die () {
-        deaths++;
-        save();
+        playerSave.deaths++;
+        playerSave.challengeMap.put("cactusfarmer",17);
+        save(playerSave);
     }
 
     public int getDeaths(){
-        return deaths;
+        return playerSave.deaths;
     };
 
 
-    public void save() {
+    public void save(PlayerSave ps) {
         //Save PlayerInfo to file
 
 
@@ -71,9 +95,9 @@ public class PlayerInfo implements Serializable, IPlayerInfo {
 
         try {
 
-            fout = new FileOutputStream("C:\\Work\\MC_Modding\\apr-21\\run\\config\\PlayerInfo.ser");
+            fout = new FileOutputStream(PATH);
             oos = new ObjectOutputStream(fout);
-            oos.writeObject(this);
+            oos.writeObject(ps);
 
             System.out.println("Done");
 
@@ -102,25 +126,22 @@ public class PlayerInfo implements Serializable, IPlayerInfo {
         }
     }
 
-    private void load() {
-        PlayerInfo pi = null;
+    private PlayerSave load() {
+        PlayerSave ps = null;
 
         FileInputStream fin = null;
         ObjectInputStream ois = null;
 
         try {
 
-            fin = new FileInputStream("C:\\Work\\MC_Modding\\apr-21\\run\\config\\PlayerInfo.ser");
+            fin = new FileInputStream(PATH);
             ois = new ObjectInputStream(fin);
-            pi = (PlayerInfo) ois.readObject();
-            islandCenter = pi.islandCenter;
-            islandHome = pi.islandHome;
-            challengeMap = pi.challengeMap;
-            deaths = pi.deaths;
-            player = pi.player;
+            ps = (PlayerSave) ois.readObject();
+
 
         } catch (Exception ex) {
             ex.printStackTrace();
+            ex.getCause().toString();
         } finally {
 
             if (fin != null) {
@@ -138,7 +159,7 @@ public class PlayerInfo implements Serializable, IPlayerInfo {
                     e.printStackTrace();
                 }
             }
-
+            return ps;
         }
 
     }
@@ -146,6 +167,7 @@ public class PlayerInfo implements Serializable, IPlayerInfo {
 
     private boolean isNew() {
         //check if file exists for player
-        return false;
+        File f = new File(PATH);
+        return !(f.exists() && !f.isDirectory());
     }
 }
