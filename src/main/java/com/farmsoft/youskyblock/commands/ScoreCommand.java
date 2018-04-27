@@ -1,4 +1,4 @@
-package com.example.examplemod.commands;
+package com.farmsoft.youskyblock.commands;
 
 
 import net.minecraft.block.*;

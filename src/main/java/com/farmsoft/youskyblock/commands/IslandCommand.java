@@ -1,4 +1,4 @@
-package com.example.examplemod.commands;
+package com.farmsoft.youskyblock.commands;
 
 import com.sun.media.jfxmedia.logging.Logger;
 import net.minecraft.command.CommandBase;

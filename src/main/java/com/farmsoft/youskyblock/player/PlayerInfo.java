@@ -1,4 +1,4 @@
-package com.example.examplemod.player;
+package com.farmsoft.youskyblock.player;
 
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.math.BlockPos;

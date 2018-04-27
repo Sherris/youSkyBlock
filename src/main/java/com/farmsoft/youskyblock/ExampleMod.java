@@ -1,6 +1,6 @@
-package com.example.examplemod;
+package com.farmsoft.youskyblock;
 
-import com.example.examplemod.commands.IslandCommand;
+import com.farmsoft.youskyblock.commands.IslandCommand;
 import net.minecraft.init.Blocks;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
