@@ -5,16 +5,12 @@ import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Biomes;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class IslandCommand extends CommandBase {
     @Override
@@ -59,24 +55,6 @@ public class IslandCommand extends CommandBase {
 
     }
 
-    public static final Map<String, Biome> BIOMES = new HashMap<String, Biome>() {
-        {
-            put("ocean", Biomes.OCEAN);
-            put("jungle", Biomes.JUNGLE);
-            put("hell", Biomes.HELL);
-            put("sky", Biomes.SKY);
-            put("mushroom", Biomes.MUSHROOM_ISLAND);
-            put("swampland", Biomes.SWAMPLAND);
-            put("taiga", Biomes.TAIGA);
-            put("desert", Biomes.DESERT);
-            put("forest", Biomes.FOREST);
-            put("plains", Biomes.PLAINS);
-            put("extreme_hills", Biomes.EXTREME_HILLS);
-            put("deep_ocean", Biomes.DEEP_OCEAN);
-            put("ice_plains", Biomes.ICE_PLAINS);
-            put("flower_forest", Biomes.MUTATED_FOREST);
-        }
-    };
 
 
 
