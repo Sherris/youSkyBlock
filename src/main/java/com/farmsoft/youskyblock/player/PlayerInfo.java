@@ -1,21 +1,16 @@
 package com.farmsoft.youskyblock.player;
 
-import net.minecraft.client.entity.EntityPlayerSP;
+import com.farmsoft.youskyblock.YouSkyBlockMod;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagFloat;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.common.capabilities.CapabilityManager;
 
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
-public class PlayerInfo implements Serializable {//}, IPlayerInfo {
+public class PlayerInfo implements Serializable {
 
-    private final String PATH = "C:\\Work\\MC_Modding\\apr-21\\run\\config\\PlayerInfo.ser";
+    private final String PATH = YouSkyBlockMod.ConfigPath.getPath() + "\\PlayerInfo.ser"; //"C:\\Work\\MC_Modding\\apr-21\\run\\config\\PlayerInfo.ser";
     private PlayerSave playerSave = new PlayerSave();
 
     private class BlockLoc implements Serializable {
@@ -57,13 +52,36 @@ public class PlayerInfo implements Serializable {//}, IPlayerInfo {
     }
 
 
-    public void setHome(BlockPos homePos) {
-
+    public boolean setHome(EntityPlayerMP player) {
+        if (ValidHome(player)) {
+            playerSave.islandHome.dimension = player.dimension;
+            playerSave.islandHome.x = player.getPosition().getX();
+            playerSave.islandHome.y = player.getPosition().getY();
+            playerSave.islandHome.z = player.getPosition().getZ();
+            save(playerSave);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public BlockPos getHome() {
-        return null;
+        return new BlockPos(playerSave.islandHome.x, playerSave.islandHome.y, playerSave.islandHome.z);
         //return islandHome;
+    }
+
+    private boolean ValidHome(EntityPlayerMP player) {
+
+        if (player.dimension!=0 || isNetherHomeValid()) {return false;}
+        if (player.getPosition().getDistance(playerSave.islandCenter.x, player.getPosition().getY(),playerSave.islandCenter.z) > 96) { return false;}
+        //anything else make it invalid?
+        return true;
+
+    }
+
+    private boolean isNetherHomeValid() {
+        //TODO Can player set a home in the nether?  Default here is no. Set up an option
+        return false;    //replace false with check for nether home option
     }
 
     public void completeChallenge(String challengeName){
@@ -77,7 +95,6 @@ public class PlayerInfo implements Serializable {//}, IPlayerInfo {
 
     public void die () {
         playerSave.deaths++;
-        playerSave.challengeMap.put("cactusfarmer",17);
         save(playerSave);
     }
 
@@ -86,7 +103,7 @@ public class PlayerInfo implements Serializable {//}, IPlayerInfo {
     };
 
 
-    public void save(PlayerSave ps) {
+    private void save(PlayerSave ps) {
         //Save PlayerInfo to file
 
 
@@ -141,7 +158,6 @@ public class PlayerInfo implements Serializable {//}, IPlayerInfo {
 
         } catch (Exception ex) {
             ex.printStackTrace();
-            ex.getCause().toString();
         } finally {
 
             if (fin != null) {

@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class BiomeCommand {
-    public static final Map<String, Biome> BIOMES = new HashMap<String, Biome>() {
+    static final Map<String, Biome> BIOMES = new HashMap<String, Biome>() {
         {
             put("ocean", Biomes.OCEAN);
             put("jungle", Biomes.JUNGLE);
@@ -40,7 +40,7 @@ public class BiomeCommand {
 
     public static final SimpleNetworkWrapper INSTANCE = NetworkRegistry.INSTANCE.newSimpleChannel("lSkyBlock.mod");
 
-    public static void execute(MinecraftServer server, EntityPlayerMP player, String[] args) {
+    static void execute(MinecraftServer server, EntityPlayerMP player, String[] args) {
         if (args.length >= 2) {
             final String biome = args[1].toLowerCase();
             if (!biomeExists(biome)) {
@@ -95,7 +95,7 @@ public class BiomeCommand {
         }
     }
 
-    public static boolean biomeExists(String biomeName) {
+    private static boolean biomeExists(String biomeName) {
         if (biomeName == null) {
             return false;
         }

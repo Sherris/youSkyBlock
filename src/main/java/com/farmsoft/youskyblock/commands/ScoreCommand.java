@@ -6,25 +6,19 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextComponentTranslation;
-import net.minecraft.world.WorldServer;
 import net.minecraft.world.chunk.Chunk;
-import net.minecraft.world.chunk.NibbleArray;
-import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
-import net.minecraftforge.common.util.BlockSnapshot;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class ScoreCommand {
+class ScoreCommand {
 
 
 
 
-    public static void execute(MinecraftServer server, EntityPlayerMP player, String[] args) {
+    static void execute(MinecraftServer server, EntityPlayerMP player, String[] args) {
 
         BlockPos position = player.getPosition();
         Map<String,Integer> chunkBlocks = new HashMap<>();
