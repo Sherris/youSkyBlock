@@ -3,26 +3,30 @@ package com.farmsoft.youskyblock;
 import net.minecraft.block.*;
 import net.minecraft.block.state.IBlockState;
 
-public class BlockName {
+public class BlockInfo {
     
-    public static String full (String id) {
+    public static String getFullName (String id) {
         IBlockState bs = getBlockState(id);
-        return getBlock(bs) + (!getVariant(bs).equals("") ? "/" + getVariant(bs) : "");
+        return getBlockName(bs) + (!getVariantName(bs).equals("") ? "/" + getVariantName(bs) : "");
         
     }
-    
-    public static String getBlock(int bId) {
-        return getBlock(getBlockState(bId+ "/0"));
+
+    public static String getId (IBlockState blockState) {
+        return Block.getIdFromBlock(blockState.getBlock()) + "/" + (Block.getStateId(blockState) >> 12);
     }
     
-    public static String getBlock(IBlockState blockState) {
+    public static String getBlockName(int bId) {
+        return getBlockName(getBlockState(bId+ "/0"));
+    }
+    
+    public static String getBlockName(IBlockState blockState) {
         if (blockState == null) {return null;}
         return blockState.getBlock().getRegistryName().toString();
     }
     
-    public static String getVariant(IBlockState blockState ) {
+    public static String getVariantName(IBlockState blockState ) {
         if (blockState == null) {return null;}
-        switch (getBlock(blockState)) {
+        switch (getBlockName(blockState)) {
             case "minecraft:air" : return "";
             case "minecraft:dirt":
                 return blockState.getValue(BlockDirt.VARIANT).getName();

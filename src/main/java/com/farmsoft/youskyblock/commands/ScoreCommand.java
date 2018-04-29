@@ -1,7 +1,7 @@
 package com.farmsoft.youskyblock.commands;
 
 
-import com.farmsoft.youskyblock.BlockName;
+import com.farmsoft.youskyblock.BlockInfo;
 import net.minecraft.block.*;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -37,9 +37,9 @@ class ScoreCommand {
                             //chunkBlocks.getValue("BlockID/Var")=chunkBlocks.getValue("BlockID/Var")+1
 
                             IBlockState block = chunk.getBlockState(x + chunk.x <<4, y, z + chunk.z <<4);
-                            String blockId = Block.getIdFromBlock(block.getBlock()) + "/" + (Block.getStateId(block) >> 12);
+                            String blockId = BlockInfo.getId(block);
 
-                            String blockFullName = BlockName.full(blockId);
+                            String blockFullName = BlockInfo.getFullName(blockId);
 
                             ItemStack itemStack = new ItemStack(block.getBlock());
                             //itemStack.getItem().getCreatorModId(itemStack);
