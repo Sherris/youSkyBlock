@@ -36,7 +36,7 @@ class ScoreCommand {
 
                             //chunkBlocks.getValue("BlockID/Var")=chunkBlocks.getValue("BlockID/Var")+1
 
-                            IBlockState block = chunk.getBlockState(x + chunk.x * 16, y, z + chunk.z * 16);
+                            IBlockState block = chunk.getBlockState(x + chunk.x <<4, y, z + chunk.z <<4);
                             String blockId = Block.getIdFromBlock(block.getBlock()) + "/" + (Block.getStateId(block) >> 12);
 
                             String blockFullName = BlockName.full(blockId);

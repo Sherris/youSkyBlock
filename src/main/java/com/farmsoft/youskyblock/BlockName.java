@@ -81,6 +81,6 @@ public class BlockName {
     
     private static IBlockState getBlockState(String id) {
         String Id[] = id.split("/");
-        return Block.getStateById(Integer.getInteger(Id[1])*4096 + Integer.getInteger(Id[0]));
+        return Block.getStateById(Integer.parseInt(Id[1])*4096 + Integer.parseInt(Id[0]));
     }
 }
