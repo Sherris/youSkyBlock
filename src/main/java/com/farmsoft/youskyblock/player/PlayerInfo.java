@@ -1,10 +1,12 @@
 package com.farmsoft.youskyblock.player;
 
 import com.farmsoft.youskyblock.YouSkyBlockMod;
+import com.farmsoft.youskyblock.challenge.ChallengeData;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.math.BlockPos;
 
 import java.io.*;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,7 +32,7 @@ public class PlayerInfo implements Serializable {
         String playerName;
         BlockLoc islandCenter;
         BlockLoc islandHome;
-        Map<String, Integer> challengeMap;
+        Map<String, ChallengeData> challengeMap;
         int deaths;
     }
 
@@ -84,12 +86,18 @@ public class PlayerInfo implements Serializable {
         return false;    //replace false with check for nether home option
     }
 
-    public void completeChallenge(String challengeName){
+    /*public void completeChallenge(String challengeName){
+        long cooldownDuration = 64800; //64800-18 hrs //TODO Look up cooldown in Config
+        ChallengeData challenge = playerSave.challengeMap.getOrDefault(challengeName, new ChallengeData(challengeName));
+        if (Calendar.getInstance().getTimeInMillis()-challenge.cooldownBegun > cooldownDuration) {
+            challenge.cooldownBegun =Calendar.getInstance().getTimeInMillis();
+            challenge.timesCompletedInCooldown=0;
+        }
         playerSave.challengeMap.put(challengeName, playerSave.challengeMap.getOrDefault(challengeName,0)+1);
         save(playerSave);
-    };
+    }; */
 
-    public Map<String, Integer> getChallenges(){
+    public Map<String, ChallengeData> getChallenges(){
         return playerSave.challengeMap;
     }
 
