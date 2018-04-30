@@ -2,7 +2,6 @@ package com.farmsoft.youskyblock.commands;
 
 
 import com.farmsoft.youskyblock.BlockInfo;
-import net.minecraft.block.*;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -24,6 +23,7 @@ class ScoreCommand {
         BlockPos position = player.getPosition();
         Map<String,Integer> chunkBlocks = new HashMap<>();
 
+        //Standard island is 12 chunks by 12 chunks - worlds with 1 island should be from -6 to 5
         for (int cx=-6; cx<6; cx++) {
             for (int cz=-6; cz<6; cz++) {
                 Chunk chunk = server.getWorld(0).getChunkFromChunkCoords(cx, cz);

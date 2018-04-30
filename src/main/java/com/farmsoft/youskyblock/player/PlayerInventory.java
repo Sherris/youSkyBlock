@@ -12,7 +12,7 @@ public class PlayerInventory extends HashMap<String,Integer> {
 
     public PlayerInventory (EntityPlayerMP player) {
         String itemID;
-        List<ItemStack> fullInventory = new ArrayList<ItemStack>(player.inventory.mainInventory);
+        List<ItemStack> fullInventory = new ArrayList<>(player.inventory.mainInventory);
         fullInventory.addAll(player.inventory.armorInventory);
         fullInventory.addAll(player.inventory.offHandInventory);
         for (ItemStack stack : fullInventory) {

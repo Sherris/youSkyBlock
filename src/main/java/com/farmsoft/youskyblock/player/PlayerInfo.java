@@ -6,13 +6,12 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.math.BlockPos;
 
 import java.io.*;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
 public class PlayerInfo implements Serializable {
 
-    private final String PATH = YouSkyBlockMod.ConfigPath.getPath() + "\\PlayerInfo.ser"; //"C:\\Work\\MC_Modding\\apr-21\\run\\config\\PlayerInfo.ser";
+    private final String PATH = YouSkyBlockMod.CONFIGPATH.getPath() + "\\PlayerInfo.ser"; //"C:\\Work\\MC_Modding\\apr-21\\run\\config\\PlayerInfo.ser";
     private PlayerSave playerSave = new PlayerSave();
 
     private class BlockLoc implements Serializable {

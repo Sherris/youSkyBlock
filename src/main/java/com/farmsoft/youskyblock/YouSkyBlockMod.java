@@ -1,6 +1,7 @@
 package com.farmsoft.youskyblock;
 
 import com.farmsoft.youskyblock.commands.IslandCommand;
+import com.farmsoft.youskyblock.island.LevelData;
 import net.minecraft.init.Blocks;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -19,23 +20,25 @@ public class YouSkyBlockMod
     public static final String VERSION = "0.1";
 
     private static Logger logger;
-    public static File ConfigPath;
+    public static File CONFIGPATH;
+    public static LevelData LEVELDATA;
 
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
         logger = event.getModLog();
-        ConfigPath = event.getModConfigurationDirectory();
+        CONFIGPATH = event.getModConfigurationDirectory();
+        logger.info("Ending PreInit", "now");
     }
 
     @EventHandler
     public void init(FMLInitializationEvent event)
     {
         // some example code
-        logger.info("Starting the youSkyBlockMod", "now");
-        Blocks.OBSIDIAN.setResistance(10.0F);
-        Blocks.ICE.setResistance(3000.0F);
+        logger.info("Starting Init for youSkyBlockMod", "now");
+        LEVELDATA = loadData.readFile();
+        logger.info("Ending Init for youSkyBlockMod", "now");
     }
 
     @EventHandler
