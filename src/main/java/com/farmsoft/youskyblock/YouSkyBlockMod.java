@@ -37,7 +37,7 @@ public class YouSkyBlockMod
     {
         // some example code
         logger.info("Starting Init for youSkyBlockMod", "now");
-        LEVELDATA = (LevelData)loadData.readFile();
+        LEVELDATA = (LevelData)loadData.readFile("levelConfig.yml");
         logger.info("Ending Init for youSkyBlockMod", "now");
     }
 

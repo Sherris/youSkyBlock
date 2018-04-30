@@ -1,31 +1,30 @@
 package com.farmsoft.youskyblock;
 
-import com.farmsoft.youskyblock.island.LevelData;
+import org.apache.commons.io.FileUtils;
 import org.yaml.snakeyaml.Yaml;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.net.URL;
 
 public class loadData {
 
-    public static Object readFile() {
+    public static Object readFile(String fileName) {
+        copyFromRes(fileName);
         Yaml yaml = new Yaml();
-        LevelData levelData = null;
+        Object object = null;
         try {
-            levelData = yaml.load(new FileReader(YouSkyBlockMod.CONFIGPATH + "\\levelConfig.yml"));
+            object = yaml.load(new FileReader(YouSkyBlockMod.CONFIGPATH + fileName));
         }
         catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        return levelData;
+        return object;
     }
 
-    static void writeFile(Object obj) {
+    static void writeFile(Object obj, String fileName) {
         Yaml yaml = new Yaml();
         try {
-            yaml.dump(obj, new FileWriter(YouSkyBlockMod.CONFIGPATH + "\\levelConfig.yml"));
+            yaml.dump(obj, new FileWriter(YouSkyBlockMod.CONFIGPATH + "\\" + fileName));
         }
         catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -34,5 +33,18 @@ public class loadData {
             e.printStackTrace();
         }
     }
+
+    static void copyFromRes(String resName) {
+        File f = new File(YouSkyBlockMod.CONFIGPATH + "\\" + resName);
+        if( !(f.exists() && !f.isDirectory())) {
+
+            try {
+                URL inputUrl = loadData.class.getClassLoader().getResource(resName);
+                File dest = new File(YouSkyBlockMod.CONFIGPATH + "\\" + resName);
+                FileUtils.copyURLToFile(inputUrl, dest);
+            } catch (Exception e) {
+
+            }
+    }}
 
 }
