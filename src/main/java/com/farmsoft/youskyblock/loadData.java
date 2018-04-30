@@ -10,7 +10,7 @@ import java.io.IOException;
 
 public class loadData {
 
-    public static LevelData readFile() {
+    public static Object readFile() {
         Yaml yaml = new Yaml();
         LevelData levelData = null;
         try {
@@ -22,10 +22,10 @@ public class loadData {
         return levelData;
     }
 
-    static void writeFile(LevelData ld) {
+    static void writeFile(Object obj) {
         Yaml yaml = new Yaml();
         try {
-            yaml.dump(ld, new FileWriter(YouSkyBlockMod.CONFIGPATH + "\\levelConfig.yml"));
+            yaml.dump(obj, new FileWriter(YouSkyBlockMod.CONFIGPATH + "\\levelConfig.yml"));
         }
         catch (FileNotFoundException e) {
             e.printStackTrace();
