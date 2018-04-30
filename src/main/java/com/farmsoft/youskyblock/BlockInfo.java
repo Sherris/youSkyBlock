@@ -56,7 +56,10 @@ public class BlockInfo {
             case "minecraft:prismarine":
                 return blockState.getValue(BlockPrismarine.VARIANT).getName();
             case "minecraft:quartz_block":
-                return blockState.getValue(BlockQuartz.VARIANT).getName().replace("lines_x", "pillar").replace("lines_y", "pillar").replace("lines_z", "pillar");
+                return blockState.getValue(BlockQuartz.VARIANT).getName()
+                        .replace("lines_x", "pillar")
+                        .replace("lines_y", "pillar")
+                        .replace("lines_z", "pillar");
             case "minecraft:sand":
                 return blockState.getValue(BlockSand.VARIANT).getName();
             case "minecraft:sandstone":

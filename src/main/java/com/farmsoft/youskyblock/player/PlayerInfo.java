@@ -27,7 +27,7 @@ public class PlayerInfo implements Serializable {
             z = blockPos.getZ();
         }
     }
-    private class PlayerSave implements Serializable {
+    public class PlayerSave implements Serializable {
         String playerID;
         String playerName;
         BlockLoc islandCenter;
