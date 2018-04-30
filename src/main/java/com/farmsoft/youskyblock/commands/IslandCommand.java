@@ -1,5 +1,6 @@
 package com.farmsoft.youskyblock.commands;
 
+import com.farmsoft.youskyblock.Color;
 import com.sun.media.jfxmedia.logging.Logger;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
@@ -49,7 +50,7 @@ public class IslandCommand extends CommandBase {
             } else if (args[0].matches("challenge|c")) {
                 ChallengeCommand.execute(server, getCommandSenderAsPlayer(sender), args);
             } else  {
-                sender.sendMessage((new TextComponentString("\u00a7cOops - I don't recognize that command!")));
+                sender.sendMessage((new TextComponentString(Color.RED + "wOops - I don't recognize that command!")));
             }
         }
 

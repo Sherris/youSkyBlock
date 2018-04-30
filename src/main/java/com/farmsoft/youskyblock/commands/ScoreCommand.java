@@ -2,6 +2,8 @@ package com.farmsoft.youskyblock.commands;
 
 
 import com.farmsoft.youskyblock.BlockInfo;
+import com.farmsoft.youskyblock.Color;
+import com.farmsoft.youskyblock.YouSkyBlockMod;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -21,7 +23,7 @@ class ScoreCommand {
     static void execute(MinecraftServer server, EntityPlayerMP player, String[] args) {
 
         BlockPos position = player.getPosition();
-        Map<String,Integer> chunkBlocks = new HashMap<>();
+        Map<String,Integer> islandBlocks = new HashMap<>();
 
         //Standard island is 12 chunks by 12 chunks - worlds with 1 island should be from -6 to 5
         for (int cx=-6; cx<6; cx++) {
@@ -32,23 +34,17 @@ class ScoreCommand {
 
                     for (int z = 0; z < 16; z++) {
 
-                        for (int y = 0; y < 255; y++) {
+                        for (int y = 0; y < 256; y++) {
 
                             //chunkBlocks.getValue("BlockID/Var")=chunkBlocks.getValue("BlockID/Var")+1
 
-                            IBlockState block = chunk.getBlockState(x + chunk.x <<4, y, z + chunk.z <<4);
+                            IBlockState block = chunk.getBlockState(x + (chunk.x <<4), y, z + (chunk.z <<4));
                             String blockId = BlockInfo.getId(block);
-
-                            String blockFullName = BlockInfo.getFullName(blockId);
-
-                            ItemStack itemStack = new ItemStack(block.getBlock());
-                            //itemStack.getItem().getCreatorModId(itemStack);
-                            //StatCollector.translateToLocal(block.getUnlocalizedName())
-                            //TextComponentTranslation tct = new TextComponentTranslation("minecraft:stonebrick");
-
-                            //new TextComponentTranslation(block.getBlock().getUnlocalizedName() + (blockVariant.equals("") || blockVariant.equals(block.getBlock().getLocalizedName().toLowerCase()) ? ""  : "." + blockVariant) + ".name").getUnformattedText();
-
-                            chunkBlocks.put(blockFullName, 1 + chunkBlocks.getOrDefault(blockFullName, 0));
+                            if (blockId.equals("41/0")) {
+                                int r=4;
+                            }
+                            //String blockFullName = BlockInfo.getFullName(blockId);
+                            islandBlocks.put(blockId, 1 + islandBlocks.getOrDefault(blockId, 0));
                         }
                     }
                 }
@@ -56,11 +52,47 @@ class ScoreCommand {
             }
         }
 
+        Double islandScore = 0D;
+        for(Map.Entry<String, Integer> entry : islandBlocks.entrySet()) {
+            Double pointsPer = YouSkyBlockMod.LEVELDATA.blockValues.get(entry.getKey());
+            if (entry.getKey().equals("0/0")) {
+                pointsPer = 0D;  //No points for air ever (hardcoded)
+            }
+            if (pointsPer == null) {
+                pointsPer = YouSkyBlockMod.LEVELDATA.blockValues.get(entry.getKey().split("/")[0]);
+            }
+            if (pointsPer == null) {
+                pointsPer = YouSkyBlockMod.LEVELDATA.defaultValue+0D;
+            }
+            Integer maxBlocks = YouSkyBlockMod.LEVELDATA.blockLimits.get(entry.getKey());
+            Integer dimBlocks = YouSkyBlockMod.LEVELDATA.diminishingReturns.get(entry.getKey());
+            if (YouSkyBlockMod.LEVELDATA.useDiminishingReturns && (dimBlocks == null || YouSkyBlockMod.LEVELDATA.defaultScale < dimBlocks)) {
+                dimBlocks = YouSkyBlockMod.LEVELDATA.defaultScale;
+            }
+            Integer negBlocks = YouSkyBlockMod.LEVELDATA.negativeReturns.get(entry.getKey());
+            Integer countBlocks = entry.getValue();
+            String color = Color.WHITE;
+
+            if (maxBlocks != null && maxBlocks < countBlocks) {
+                countBlocks = maxBlocks;
+                color = Color.RED;
+            }
+            if (dimBlocks == null) {
+                dimBlocks = countBlocks;
+            } else if (dimBlocks < countBlocks) {
+                color = Color.YELLOW;
+            }
+
+            Double finalpts = (Math.sqrt(8*Math.max(countBlocks/dimBlocks*1D,1)+1)-1)/2*Math.min(countBlocks,dimBlocks)*pointsPer/YouSkyBlockMod.LEVELDATA.pointsPerLevel;
+            islandScore = islandScore + finalpts;
+
+        }
 
 
 
 
-        player.sendMessage(new TextComponentString("retrieved tile entities"));
+
+        player.sendMessage(new TextComponentString(Color.DARKGREEN + "Your island score is: " + Color.DARKAQUA + islandScore));
 
     }
 
