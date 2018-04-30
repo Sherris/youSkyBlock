@@ -1,26 +1,26 @@
 package com.farmsoft.youskyblock.challenge;
 
 import java.io.Serializable;
-import java.util.Calendar;
+import java.util.Map;
 
 public class ChallengeData implements Serializable {
-    String name;
-    int timesCompleted=0;
-    int timesCompletedInCooldown=0;
-    long cooldownBegun =0;
+    public boolean allowChallenges;
+    public String challengeSharing;
+    public boolean broadcastCompletion;
+    public String broadcastText;
+    public boolean requirePreviousRank;
+    public Integer rankLeeway;
+    public Integer defaultResetInHours;
+    public String challengeColor;
+    public String finishedColor;
+    public String repeatableColor;
+    public boolean enableEconomyPlugin;
+    public boolean resetChallengesOnCreate;
+    public Map<String, Challenge> challenges;
 
-    public ChallengeData(String iname) {
-        name=iname;
+
+    public ChallengeData() {
+
     }
 
-    public String[] Complete(String iname) {
-        long cooldownDuration = 64800; //64800=18 hrs //TODO Look up cooldown in Config
-        long now =Calendar.getInstance().getTimeInMillis();
-
-        if (now-cooldownBegun > cooldownDuration) {  //reset cooldown
-            cooldownBegun = now;
-            timesCompletedInCooldown=0;
-        }
-        return null;
-    }
 }

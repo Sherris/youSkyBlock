@@ -6,7 +6,6 @@ import com.farmsoft.youskyblock.Color;
 import com.farmsoft.youskyblock.YouSkyBlockMod;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
@@ -58,13 +57,17 @@ class ScoreCommand {
             if (entry.getKey().equals("0/0")) {
                 pointsPer = 0D;  //No points for air ever (hardcoded)
             }
-            if (pointsPer == null) {
+            if (pointsPer == null) {  //If variant is missing, check if block is listed without variant (shared values)
                 pointsPer = YouSkyBlockMod.LEVELDATA.blockValues.get(entry.getKey().split("/")[0]);
             }
-            if (pointsPer == null) {
+            if (pointsPer == null) {  //If variant AND base block is missing (could be base block is listed specifically as /0) use default value
                 pointsPer = YouSkyBlockMod.LEVELDATA.defaultValue+0D;
             }
             Integer maxBlocks = YouSkyBlockMod.LEVELDATA.blockLimits.get(entry.getKey());
+            if (maxBlocks == null) {  //If variant is missing, check if block is listed without variant (shared values)
+                maxBlocks = YouSkyBlockMod.LEVELDATA.blockLimits.get(entry.getKey().split("/")[0]);
+            }
+
             Integer dimBlocks = YouSkyBlockMod.LEVELDATA.diminishingReturns.get(entry.getKey());
             if (YouSkyBlockMod.LEVELDATA.useDiminishingReturns && (dimBlocks == null || YouSkyBlockMod.LEVELDATA.defaultScale < dimBlocks)) {
                 dimBlocks = YouSkyBlockMod.LEVELDATA.defaultScale;

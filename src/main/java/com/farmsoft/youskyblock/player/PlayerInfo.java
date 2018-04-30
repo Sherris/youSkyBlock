@@ -1,7 +1,7 @@
 package com.farmsoft.youskyblock.player;
 
 import com.farmsoft.youskyblock.YouSkyBlockMod;
-import com.farmsoft.youskyblock.challenge.ChallengeData;
+import com.farmsoft.youskyblock.challenge.ChallengeStatus;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.math.BlockPos;
 
@@ -31,7 +31,7 @@ public class PlayerInfo implements Serializable {
         String playerName;
         BlockLoc islandCenter;
         BlockLoc islandHome;
-        Map<String, ChallengeData> challengeMap;
+        Map<String, ChallengeStatus> challengeMap;
         int deaths;
     }
 
@@ -96,7 +96,7 @@ public class PlayerInfo implements Serializable {
         save(playerSave);
     }; */
 
-    public Map<String, ChallengeData> getChallenges(){
+    public Map<String, ChallengeStatus> getChallenges(){
         return playerSave.challengeMap;
     }
 
